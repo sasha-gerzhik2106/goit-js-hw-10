@@ -10,18 +10,10 @@ form.addEventListener('submit', event => {
 
   const promise = new Promise((resolve, reject) => {
     if (state === 'fulfilled') {
-      resolve(delay);
-    } else {
-      reject(delay);
-    }
-  });
-
-  promise
-    .then(delayRes => {
 		setTimeout(()=>{
 			iziToast.success({
 				title: 'Ok',
-				message: `Fulfilled promise in ${delayRes}ms`,
+				message: `Fulfilled promise in ${delay}ms`,
 				position: 'topRight',
 				color: '#59a10d',
 				titleColor: '#fff',
@@ -31,13 +23,13 @@ form.addEventListener('submit', event => {
 				messageSize: '16px',
 				messageLineHeight: '150%',
 			  });
-		}, delayRes)
-    })
-    .catch(delayRes => {
+			  resolve();
+		}, delay);
+    } else {
 		setTimeout(()=>{
 			iziToast.error({
 				title: 'Error',
-				message: `Rejected promise in ${delayRes}ms`,
+				message: `Rejected promise in ${delay}ms`,
 				position: 'topRight',
 				color: '#ef4040',
 				titleColor: '#fff',
@@ -47,6 +39,17 @@ form.addEventListener('submit', event => {
 				messageSize: '16px',
 				messageLineHeight: '150%',
 			  });
-		},delayRes)
+			  reject();
+		},delay);
+    }
+});
+
+  promise
+    .then(() => {
+		console.log("Promise resolved");
+    })
+    .catch(() => {
+		console.log("Promise rejected");
+		
     });
 });
